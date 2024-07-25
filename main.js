@@ -10,10 +10,10 @@ const host = process.env.API_HOST;
 
 const app = express();
 
-var indexRouter = require("./src/routes/index");
-// var userRouter = require("./src/routes/user");
-// var statisticsRouter = require("./src/routes/statistics");
-// var quizRouter = require("./src/routes/quiz");
+const indexRouter = require("./src/routes/index");
+const userRouter = require("./src/routes/user");
+// const statisticsRouter = require("./src/routes/statistics");
+// const quizRouter = require("./src/routes/quiz");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, "view")));
 app.use(cors());
 
 app.use("/", indexRouter);
-// app.use("/user", userRouter);
+app.use("/user", userRouter);
 // app.use("/statistics", statisticsRouter);
 // app.use("/quiz", quizRouter);
 
