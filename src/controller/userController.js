@@ -1,5 +1,6 @@
 var userModel = require("../model/userModel");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 async function getAll(req, res) {
 
@@ -60,7 +61,9 @@ async function login(req, res) {
             return res.status(401).send('Senha incorreta');
         }
 
-        return res.status(200).send('Login bem-sucedido');
+        const token = jwt.sign({ userId: user.user_id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        console.log ('Logado com sucesso!');
+        return res.status(200).json({ token });
 
     } catch (e) {
         console.log('Erro na execução do login:', e);
