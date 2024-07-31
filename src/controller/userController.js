@@ -2,7 +2,7 @@ const userModel = require("../model/userModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const myCache = require('../utils/cache');
-const authUtil = require('../utils/authenticateUser');
+const authUtil = require('../utils/authUtil');
 
 async function getAll(req, res) {
 

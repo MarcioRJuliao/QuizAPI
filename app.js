@@ -5,7 +5,11 @@ const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const helmet = require('helmet');
 
-const envPath = '.env';
+const environment = 'development';
+// const environment = 'production';
+
+const envPath = environment === 'development' ? '.env.dev' : '.env';
+
 require("dotenv").config({ path: envPath });
 
 const limiter = rateLimit({
