@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 async function authenticateUser({ email, password }) {
     try {
         const result = await userModel.login({ email });
@@ -15,3 +17,5 @@ async function authenticateUser({ email, password }) {
         return false; // Em caso de erro, retorne false
     }
 }
+
+module.exports = { authenticateUser };

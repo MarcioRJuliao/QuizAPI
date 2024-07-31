@@ -1,4 +1,4 @@
-// Script para criação do banco de dados e tabelas
+-- Script para criação do banco de dados e tabelas
 
 -- -----------------------------------------------------
 -- Schema quizApi
