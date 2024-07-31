@@ -1,4 +1,5 @@
 var userModel = require("../model/userModel");
+const bcrypt = require('bcrypt');
 
 async function getAll(req, res) {
 
@@ -22,7 +23,13 @@ async function create(req, res) {
 
     try {
         const user = req.body;
-        const result = await userModel.create(user);
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(user.password, saltRounds);
+
+        const userWithHashedPassword = { ...user, password: hashedPassword };
+
+        const result = await userModel.create(userWithHashedPassword);
 
         if (result.affectedRows > 0) {
             return res.status(201).send('Usuário criado com sucesso');
@@ -38,23 +45,29 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
-
     try {
-        const user = req.body;
-        const result = await userModel.login(user);
+        const { email, password } = req.body;
+        const result = await userModel.login({ email });
 
         if (result.length === 0) {
             return res.status(404).send('Usuário não encontrado');
-        } else if (result.length > 0) {
-            return res.status(200).send(result);
         }
 
+        const user = result[0];
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).send('Senha incorreta');
+        }
+
+        return res.status(200).send('Login bem-sucedido');
+
     } catch (e) {
-        console.log('Erro na execução do login:', e, e.sqlMessage);
+        console.log('Erro na execução do login:', e);
         res.status(500).send('Erro na execução do login');
     }
-
 }
+
 
 async function getById(req, res) {
 

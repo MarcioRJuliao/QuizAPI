@@ -12,8 +12,8 @@ function create(user) {
 }
 
 function login(user) {
-    const query = "SELECT user_id, email, name, password FROM user WHERE email = ? AND password = ?";
-    const params = [user.email, user.password];
+    const query = "SELECT user_id, email, name, password FROM user WHERE email = ?";
+    const params = [user.email];
     return database.execute({ query, params });
 }
 
