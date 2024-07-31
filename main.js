@@ -1,9 +1,18 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const rateLimit = require('express-rate-limit');
+
 
 const envPath = '.env';
 require("dotenv").config({ path: envPath });
+
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100,
+    message: { error: 'Muito rápido! Tente novamente mais tarde.' },
+});
+
 
 const port = process.env.API_PORT;
 const host = process.env.API_HOST;
@@ -20,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "view")));
 
 app.use(cors());
+app.use(limiter);
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
