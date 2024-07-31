@@ -1,6 +1,7 @@
 var userModel = require("../model/userModel");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const myCache = require('../utils/cache');
 
 async function getAll(req, res) {
 
@@ -62,6 +63,9 @@ async function login(req, res) {
         }
 
         const token = jwt.sign({ userId: user.user_id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        myCache.set(user.user_id, { email: user.email, name: user.name });
+
         console.log ('Logado com sucesso!');
         return res.status(200).json({ token });
 
