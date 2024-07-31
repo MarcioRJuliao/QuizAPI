@@ -8,8 +8,7 @@ var mySqlConfig = {
     database: process.env.DB_DATABASE
 };
 
-function execute(query) {
-
+function execute({ query, params }) {
     if (query == null || query == undefined) 
         throw new Error('A Query SQL está nula ou indefinida');
     
@@ -17,7 +16,7 @@ function execute(query) {
         var connection = mysql.createConnection(mySqlConfig);
         connection.connect();
 
-        connection.query(query, function (error, results, fields) {
+        connection.query(query, params, function (error, results, fields) {
             connection.end();
             if (error) {
                 reject(error);
@@ -26,10 +25,10 @@ function execute(query) {
             resolve(results);
         });
         connection.on('error', function (error) {
-            return ("Erro na execução da query: ", error.sqlMessage);
+            console.error("Erro na execução da query: ", error.sqlMessage);
         });
     });
-
 }
+
 
 module.exports = { execute };
