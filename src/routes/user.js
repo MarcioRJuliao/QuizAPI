@@ -28,4 +28,16 @@ router.get('/protected', authenticateToken, function (req, res) {
 
 });
 
+router.put('/updateName', authenticateToken, function (req, res) {
+    userController.updateName(req, res);
+});
+
+router.put('/updatePassword', authenticateToken, function (req, res) {
+    userController.updatePassword(req, res);
+});
+
+router.delete('/delete', authenticateToken, function (req, res) {
+    userController.deleteUser(req, res);
+});
+
 module.exports = router;

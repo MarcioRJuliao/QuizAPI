@@ -23,4 +23,22 @@ function getById(id) {
     return database.execute({ query, params });
 }
 
-module.exports = { getAll, create, login, getById };
+function updateName(user) {
+    const query = "UPDATE user SET name = ? WHERE user_id = ?";
+    const params = [user.name, user.user_id];
+    return database.execute({ query, params });
+}
+
+function updatePassword(user) {
+    const query = "UPDATE user SET password = ? WHERE user_id = ?";
+    const params = [user.password, user.user_id];
+    return database.execute({ query, params });
+}
+
+function deleteUser(user) {
+    const query = "DELETE FROM user WHERE user_id = ?";
+    const params = [user.user_id];
+    return database.execute({ query, params });
+}
+
+module.exports = { getAll, create, login, getById, updateName, updatePassword, deleteUser };
