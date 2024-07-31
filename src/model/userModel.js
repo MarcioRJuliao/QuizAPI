@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function getAll() {
     const query = "SELECT user_id, email, name FROM user";
-    return database.execute(query);
+    return database.execute({ query });
 }
 
 function create(user) {
