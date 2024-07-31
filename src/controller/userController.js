@@ -26,6 +26,10 @@ async function create(req, res) {
     try {
         const user = req.body;
 
+        if (user.password.length < 8) {
+            return res.status(400).send('A senha deve ter no mínimo 8 caracteres');
+        } 
+
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(user.password, saltRounds);
 
@@ -47,6 +51,7 @@ async function create(req, res) {
 }
 
 async function login(req, res) {
+
     try {
         const { email, password } = req.body;
         const result = await userModel.login({ email });
@@ -74,7 +79,6 @@ async function login(req, res) {
         res.status(500).send('Erro na execução do login');
     }
 }
-
 
 async function getById(req, res) {
 
