@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const rateLimit = require('express-rate-limit');
+const compression = require('compression');
 
 const envPath = '.env';
 require("dotenv").config({ path: envPath });
@@ -24,6 +25,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "view")));
 
 app.use(cors());
+app.use(compression({
+    threshold: 10240, // Comprima respostas maiores ou iguais a 10 KB (10240 bytes)
+}));
 app.use(limiter);
 
 app.use("/", indexRouter);
