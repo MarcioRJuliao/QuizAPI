@@ -1,7 +1,7 @@
 var database = require("../database/config");
 
 function getAll() {
-    const query = "SELECT * FROM user";
+    const query = "SELECT user_id, email, name FROM user";
     return database.execute(query);
 }
 
@@ -12,13 +12,13 @@ function create(user) {
 }
 
 function login(user) {
-    const query = "SELECT * FROM user WHERE email = ? AND password = ?";
+    const query = "SELECT user_id, email, name, password FROM user WHERE email = ? AND password = ?";
     const params = [user.email, user.password];
     return database.execute({ query, params });
 }
 
 function getById(id) {
-    const query = "SELECT * FROM user WHERE user_id = ?";
+    const query = "SELECT user_id, email, name FROM user WHERE user_id = ?";
     const params = [id];
     return database.execute({ query, params });
 }
